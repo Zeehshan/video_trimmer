@@ -434,7 +434,7 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        color: Theme.of(context).primaryColor.withOpacity(.2)),
+                        color: const Color(0xff344054).withOpacity(.5)),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     child: Row(
