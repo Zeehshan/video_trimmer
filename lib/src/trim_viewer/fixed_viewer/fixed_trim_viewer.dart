@@ -428,39 +428,42 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           widget.showDuration
-              ? Container(
-                  height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Theme.of(context).primaryColor.withOpacity(.2)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        Duration(milliseconds: _videoStartPos.toInt())
-                            .format(widget.durationStyle),
-                        style: widget.durationTextStyle,
-                      ),
-                      Container(
-                        width: 5,
-                        height: 1.2,
-                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                        color: Colors.white,
-                      ),
-                      videoPlayerController.value.isPlaying
-                          ? Text(
-                              Duration(milliseconds: _currentPosition.toInt())
-                                  .format(widget.durationStyle),
-                              style: widget.durationTextStyle,
-                            )
-                          : Container(),
-                      Text(
-                        Duration(milliseconds: _videoEndPos.toInt())
-                            .format(widget.durationStyle),
-                        style: widget.durationTextStyle,
-                      ),
-                    ],
+              ? IntrinsicWidth(
+                  child: Container(
+                    // height: 30,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Theme.of(context).primaryColor.withOpacity(.2)),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          Duration(milliseconds: _videoStartPos.toInt())
+                              .format(widget.durationStyle),
+                          style: widget.durationTextStyle,
+                        ),
+                        Container(
+                          width: 5,
+                          height: 1.2,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          color: Colors.white,
+                        ),
+                        videoPlayerController.value.isPlaying
+                            ? Text(
+                                Duration(milliseconds: _currentPosition.toInt())
+                                    .format(widget.durationStyle),
+                                style: widget.durationTextStyle,
+                              )
+                            : Container(),
+                        Text(
+                          Duration(milliseconds: _videoEndPos.toInt())
+                              .format(widget.durationStyle),
+                          style: widget.durationTextStyle,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : Container(
