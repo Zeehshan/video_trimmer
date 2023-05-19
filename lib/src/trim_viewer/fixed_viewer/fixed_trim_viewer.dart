@@ -430,14 +430,12 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
           widget.showDuration
               ? IntrinsicWidth(
                   child: Container(
-                    height: 40,
-                    width: 160,
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         color: const Color(0xff344054).withOpacity(.5)),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                     child: Row(
                       children: <Widget>[
                         Text(
