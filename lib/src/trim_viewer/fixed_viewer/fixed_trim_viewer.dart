@@ -418,6 +418,30 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
     super.dispose();
   }
 
+  static String formatDuration(Duration d) {
+    var seconds = d.inSeconds;
+    final days = seconds ~/ Duration.secondsPerDay;
+    seconds -= days * Duration.secondsPerDay;
+    final hours = seconds ~/ Duration.secondsPerHour;
+    seconds -= hours * Duration.secondsPerHour;
+    final minutes = seconds ~/ Duration.secondsPerMinute;
+    seconds -= minutes * Duration.secondsPerMinute;
+
+    final List<String> tokens = [];
+    if (days != 0) {
+      tokens.add('$days');
+    }
+    if (tokens.isNotEmpty || hours != 0) {
+      tokens.add(hours > 9 ? '$hours' : '0$hours');
+    }
+    if (tokens.isNotEmpty || minutes != 0) {
+      tokens.add(minutes > 9 ? '$minutes' : '0$minutes');
+    }
+    tokens.add(seconds > 9 ? '$seconds' : '0$seconds');
+
+    return tokens.join(':');
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -427,41 +451,77 @@ class _FixedTrimViewerState extends State<FixedTrimViewer>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          // widget.showDuration
+          //     ? Container(
+          //         width: 80,
+          //         margin: const EdgeInsets.only(bottom: 20),
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(50),
+          //             color: const Color(0xff344054).withOpacity(.5)),
+          //         padding:
+          //             const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          //         child: Row(
+          //           children: <Widget>[
+          //             Text(
+          //               Duration(milliseconds: _videoStartPos.toInt())
+          //                   .format(widget.durationStyle),
+          //               style: widget.durationTextStyle,
+          //             ),
+          //             Container(
+          //               width: 5,
+          //               height: 1.2,
+          //               margin: const EdgeInsets.symmetric(horizontal: 4),
+          //               color: Colors.white,
+          //             ),
+          //             videoPlayerController.value.isPlaying
+          //                 ? Text(
+          //                     Duration(milliseconds: _currentPosition.toInt())
+          //                         .format(widget.durationStyle),
+          //                     style: widget.durationTextStyle,
+          //                   )
+          //                 : Container(),
+          //             Text(
+          //               Duration(milliseconds: _videoEndPos.toInt())
+          //                   .format(widget.durationStyle),
+          //               style: widget.durationTextStyle,
+          //             ),
+          //           ],
+          //         ),
+          //       )
           widget.showDuration
-              ? Container(
-                  width: 80,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: const Color(0xff344054).withOpacity(.5)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        Duration(milliseconds: _videoStartPos.toInt())
-                            .format(widget.durationStyle),
-                        style: widget.durationTextStyle,
-                      ),
-                      Container(
-                        width: 5,
-                        height: 1.2,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        color: Colors.white,
-                      ),
-                      videoPlayerController.value.isPlaying
-                          ? Text(
-                              Duration(milliseconds: _currentPosition.toInt())
-                                  .format(widget.durationStyle),
-                              style: widget.durationTextStyle,
-                            )
-                          : Container(),
-                      Text(
-                        Duration(milliseconds: _videoEndPos.toInt())
-                            .format(widget.durationStyle),
-                        style: widget.durationTextStyle,
-                      ),
-                    ],
+              ? SizedBox(
+                  width: _thumbnailViewerW,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Text(
+                          // Duration(milliseconds: _videoStartPos.toInt())
+                          //     .format(widget.durationStyle),
+                          formatDuration(
+                              Duration(milliseconds: _videoStartPos.toInt())),
+                          style: widget.durationTextStyle,
+                        ),
+                        videoPlayerController.value.isPlaying
+                            ? Text(
+                                // Duration(milliseconds: _currentPosition.toInt())
+                                //     .format(widget.durationStyle),
+                                formatDuration(Duration(
+                                    milliseconds: _currentPosition.toInt())),
+                                style: widget.durationTextStyle,
+                              )
+                            : Container(),
+                        Text(
+                          // Duration(milliseconds: _videoEndPos.toInt())
+                          //     .format(widget.durationStyle),
+                          formatDuration(
+                              Duration(milliseconds: _videoEndPos.toInt())),
+                          style: widget.durationTextStyle,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : Container(
