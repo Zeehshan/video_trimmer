@@ -574,6 +574,30 @@ class _ScrollableTrimViewerState extends State<ScrollableTrimViewer>
     super.dispose();
   }
 
+  static String formatDuration(Duration d) {
+    var seconds = d.inSeconds;
+    final days = seconds ~/ Duration.secondsPerDay;
+    seconds -= days * Duration.secondsPerDay;
+    final hours = seconds ~/ Duration.secondsPerHour;
+    seconds -= hours * Duration.secondsPerHour;
+    final minutes = seconds ~/ Duration.secondsPerMinute;
+    seconds -= minutes * Duration.secondsPerMinute;
+
+    final List<String> tokens = [];
+    if (days != 0) {
+      tokens.add('$days');
+    }
+    if (tokens.isNotEmpty || hours != 0) {
+      tokens.add(hours > 9 ? '$hours' : '0$hours');
+    }
+    if (tokens.isNotEmpty || minutes != 0) {
+      tokens.add(minutes > 9 ? '$minutes' : '0$minutes');
+    }
+    tokens.add(seconds > 9 ? '$seconds' : '0$seconds');
+
+    return tokens.join(':');
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -593,20 +617,26 @@ class _ScrollableTrimViewerState extends State<ScrollableTrimViewer>
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text(
-                          Duration(milliseconds: _videoStartPos.toInt())
-                              .format(widget.durationStyle),
+                          // Duration(milliseconds: _videoStartPos.toInt())
+                          //     .format(widget.durationStyle),
+                          formatDuration(
+                              Duration(milliseconds: _videoStartPos.toInt())),
                           style: widget.durationTextStyle,
                         ),
                         videoPlayerController.value.isPlaying
                             ? Text(
-                                Duration(milliseconds: _currentPosition.toInt())
-                                    .format(widget.durationStyle),
+                                // Duration(milliseconds: _currentPosition.toInt())
+                                //     .format(widget.durationStyle),
+                                formatDuration(Duration(
+                                    milliseconds: _currentPosition.toInt())),
                                 style: widget.durationTextStyle,
                               )
                             : Container(),
                         Text(
-                          Duration(milliseconds: _videoEndPos.toInt())
-                              .format(widget.durationStyle),
+                          // Duration(milliseconds: _videoEndPos.toInt())
+                          //     .format(widget.durationStyle),
+                          formatDuration(
+                              Duration(milliseconds: _videoEndPos.toInt())),
                           style: widget.durationTextStyle,
                         ),
                       ],
